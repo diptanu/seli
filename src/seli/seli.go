@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"io/ioutil"
+	"path"
 )
 
 var config_file string
@@ -24,14 +25,17 @@ func upload_handler(w http.ResponseWriter, req *http.Request){
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println(file)
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = ioutil.WriteFile(handler.Filename, data, 0777) 
+	file_name := path.Join(repo_path, handler.Filename)
+	err = ioutil.WriteFile(file_name, data, 0777) 
         if err != nil { 
                 log.Println(err) 
         } 
+	log.Println("Written a new file :" + file_name)
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte(req.Method))
 }
