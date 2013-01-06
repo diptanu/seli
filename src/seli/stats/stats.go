@@ -22,8 +22,6 @@ func (seliStats *selistats) Resource() ([]byte, error) {
 func SeliStats() *selistats {
 	if instantiated == nil {
 		instantiated = new(selistats)
-		instantiated.TotalPackages = 1
-		instantiated.LastRepositoryModifiedTime = 12
 	}
 	return instantiated
 }
