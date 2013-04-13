@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"os/exec"
 	stats "seli/stats"
 )
 
@@ -58,6 +59,10 @@ func main() {
 	http.HandleFunc("/upload", upload_handler)
 	http.HandleFunc("/stats/", stats_handler)
 	log.Println("Starting Seli")
+	_, er := exec.LookPath("createrepo")
+	if er != nil {
+		log.Println("createrepo is not found. Seli won't be able to create package metadata on this host")
+	}
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal(err)
